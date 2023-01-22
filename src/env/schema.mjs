@@ -7,6 +7,10 @@ import { z } from "zod";
  */
 export const serverSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
+  NEXT_URL: z.string(),
+  NOTION_SECRET: z.string(),
+  NOTION_TOKEN: z.string(),
+  NOTION_PAGE_ID: z.string(),
 });
 
 /**
@@ -16,6 +20,10 @@ export const serverSchema = z.object({
  */
 export const serverEnv = {
   NODE_ENV: process.env.NODE_ENV,
+  NEXT_URL: process.env.NEXT_URL,
+  NOTION_SECRET: process.env.NOTION_SECRET,
+  NOTION_TOKEN: process.env.NOTION_TOKEN,
+  NOTION_PAGE_ID: process.env.NOTION_PAGE_ID,
 };
 
 /**
