@@ -12,7 +12,7 @@ const config = {
     appDir: true,
   },
   images: {
-    domains: ['localhost'],
+    domains: ['localhost', 's3.us-west-2.amazonaws.com'],
   },
 }
 export default config
