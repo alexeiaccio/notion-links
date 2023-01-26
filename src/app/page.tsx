@@ -35,7 +35,7 @@ export default async function Page() {
                       </div>
                     </div>
                   </summary>
-                  <div className="hidden h-0 py-4 group-open:grid ">
+                  <div className="hidden py-4 group-open:grid">
                     <ClientComponent>
                       <Suspense fallback={'loading...'}>
                         {/* @ts-expect-error RSC */}
