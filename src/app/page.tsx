@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import { env } from '~/env/server.mjs'
 import { getBlockRecordMap, getBlocktData, getData, getSocialsData } from '~/utils/data'
 import { ClientComponent } from './client'
 import { type IconName, Icons } from './icons'
@@ -121,7 +122,7 @@ async function BlockContent({ id }: { id: string }) {
             if (src.includes('youtube')) {
               const url = new URL(src)
               const id = url.searchParams.get('v')
-              if (id) src = `http://www.youtube.com/embed/${id}`
+              if (id) src = `http${env.NODE_ENV === 'production' ? 's' : ''}://www.youtube.com/embed/${id}`
             }
             return (
               <div key={block.id} className="relative aspect-video w-full">
