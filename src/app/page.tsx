@@ -16,8 +16,8 @@ export default async function Page() {
         <Image src={data?.avatar?.url} width={96} height={96} id={data.id} alt={data?.name ?? ''} />
       </div>
       <h1 className="text-2xl font-bold">{data?.name}</h1>
-      {data?.info && <p className="px-4">{data.info}</p>}
-      <div className="grid w-full gap-4 px-4">
+      {data?.info && <p className="max-w-[72ch] px-4 text-center">{data.info}</p>}
+      <div className="mt-8 grid w-full max-w-[72ch] gap-4 px-4">
         {data?.links?.map((link) => {
           switch (link.type) {
             case 'bookmark': {
@@ -35,7 +35,7 @@ export default async function Page() {
                       </div>
                     </div>
                   </summary>
-                  <div className="hidden py-4 group-open:grid">
+                  <div className="hidden h-0 py-4 group-open:grid ">
                     <ClientComponent>
                       <Suspense fallback={'loading...'}>
                         {/* @ts-expect-error RSC */}
@@ -86,14 +86,20 @@ async function Bookmark({
       target="_blank"
       rel="noreferrer"
       className="flex min-w-0 items-center gap-4 overflow-hidden bg-white p-1 shadow-lg hover:scale-105 hover:transition-transform"
-      title={data?.description || data?.title || link.title || link.href}
+      title={data?.description || link.title || data?.title || link.href}
     >
       <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
         {data?.cover && (
-          <Image src={data.cover} className="h-full w-full object-cover" width={48} height={48} alt={link.title} />
+          <Image
+            src={data.cover}
+            className="h-full w-full object-cover"
+            width={48}
+            height={48}
+            alt={link.title ?? ''}
+          />
         )}
       </div>
-      <h3 className="max-w-full flex-1 truncate">{data?.title || link.title || link.href}</h3>
+      <h3 className="max-w-full flex-1 truncate">{link.title || data?.title || link.href}</h3>
     </a>
   )
 }
@@ -134,7 +140,7 @@ async function BlockContent({ id }: { id: string }) {
 async function Socials({ id }: { id: string | undefined }) {
   const data = await getSocialsData(id)
   return (
-    <div className="mt-auto flex gap-4 p-4">
+    <div className="mt-auto flex max-w-[72ch] gap-4 p-4">
       {data?.map((item) => {
         return (
           <a
