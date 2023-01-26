@@ -147,7 +147,7 @@ async function Socials({ id }: { id: string | undefined }) {
           <a
             key={item.id}
             className="relative grid h-12 w-12 flex-shrink-0 place-items-center overflow-hidden transition-colors before:absolute before:inset-0 before:rounded-full before:opacity-0 before:transition-opacity before:[background-image:linear-gradient(32deg,_#85eaf2_0%,_#e485cf_47%,_#fdf67a_100%)] hover:text-white hover:before:opacity-100"
-            href={item.url ?? ''}
+            href={item.url?.includes('@') ? `mailto:${item.url}` : item.url ?? ''}
             title={item.title}
             target="_blank"
             rel="noreferrer"
