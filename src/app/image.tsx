@@ -30,5 +30,5 @@ export function Image({
     )
   }
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src={src} alt={alt} width={width} height={height} loading="lazy" />
+  return <img src={src} alt={alt} width={width} height={height} loading="lazy" className={props.className} />
 }

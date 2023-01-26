@@ -34,7 +34,7 @@ export async function getData() {
         const content = getBlockContent(block, block.type)
         if (!content?.url) return []
         return {
-          id: idFromUUID(block.id),
+          id: block.id,
           type: block.type,
           href: content.url,
           title: richTextToPlainText(content.caption),
@@ -43,7 +43,7 @@ export async function getData() {
       if (block.type === 'toggle' && block.has_children) {
         const content = getBlockContent(block, block.type)
         return {
-          id: idFromUUID(block.id),
+          id: block.id,
           type: block.type,
           title: richTextToPlainText(content?.rich_text),
         }
@@ -60,7 +60,7 @@ export async function getBlocktData(id: string) {
     if (block.type === 'paragraph') {
       const content = getBlockContent(block, block.type)
       return {
-        id: idFromUUID(block.id),
+        id: block.id,
         type: block.type,
         text: richTextToPlainText(content?.rich_text),
       }
@@ -69,7 +69,7 @@ export async function getBlocktData(id: string) {
       const content = getBlockContent(block, block.type)
       if (content?.type !== 'external') return []
       return {
-        id: idFromUUID(block.id),
+        id: block.id,
         type: block.type,
         url: content.external.url,
       }
@@ -84,7 +84,7 @@ export async function getSocialsData(id: string | undefined) {
     if (!isFullPage(item)) return []
     if (item.object === 'page') {
       return {
-        id: idFromUUID(item.id),
+        id: item.id,
         title: richTextToPlainText(getProperty(item.properties, 'title', 'title')),
         media: getProperty(item.properties, 'media', 'select')?.name ?? null,
         url: getProperty(item.properties, 'link', 'url') ?? null,
@@ -93,6 +93,8 @@ export async function getSocialsData(id: string | undefined) {
     return []
   })
 }
+
+// #region api
 
 export async function getPage(id: string | undefined) {
   const page = await notion.pages.retrieve({
@@ -116,6 +118,48 @@ export async function getDatabase(id: string | undefined) {
   })
   return database
 }
+
+export async function getBlockRecordMap(id: string | undefined) {
+  if (!id) return null
+
+  try {
+    const data = await fetch('https://www.notion.so/api/v3/syncRecordValues', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: `token_v2=${env.NOTION_TOKEN}`,
+      },
+      body: JSON.stringify({
+        requests: [
+          {
+            pointer: {
+              table: 'block',
+              id,
+            },
+            version: 1,
+          },
+        ],
+      }),
+    })
+    const json = (await data.json()) as { recordMap: RecordMap }
+    const recordMap = json.recordMap
+    const properties = recordMap.block?.[id]?.value?.properties
+    const format = recordMap.block?.[id]?.value?.format
+    return {
+      id,
+      title: properties?.title?.[0]?.[0] ?? null,
+      description: properties?.description?.[0]?.[0] ?? null,
+      icon: format?.bookmark_icon ?? null,
+      cover: format?.bookmark_cover ?? null,
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// #endregion
+
+// #region helpers
 
 export function idFromUUID(id: string | null | undefined): string {
   return id?.replace(/-/g, '') ?? ''
@@ -164,3 +208,48 @@ type Block = PartialBlockObjectResponse | BlockObjectResponse
 type Properties = PageObjectResponse['properties']
 type Property = NonNullable<Properties[keyof Properties]>
 type File = Extract<Property, { type: 'files' }>['files'][number]
+
+export interface RecordMap {
+  block: TBlock
+}
+
+export interface TBlock {
+  [key: string]: TEditor
+}
+
+export interface TEditor {
+  role: string
+  value: Value
+}
+
+export interface Value {
+  id: string
+  version: number
+  type: string
+  properties: TProperties
+  format: Format
+  created_time: number
+  last_edited_time: number
+  parent_id: string
+  parent_table: string
+  alive: boolean
+  created_by_table: string
+  created_by_id: string
+  last_edited_by_table: string
+  last_edited_by_id: string
+  space_id: string
+}
+
+export interface TProperties {
+  link: string[][]
+  title: string[][]
+  caption: string[][]
+  description: string[][]
+}
+
+export interface Format {
+  bookmark_icon: string
+  bookmark_cover: string
+}
+
+// #endregion
