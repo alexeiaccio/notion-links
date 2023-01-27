@@ -19,7 +19,9 @@ export function Image({
       <NextImage
         src={
           src.includes('www.notion.so')
-            ? `${env.NEXT_URL}/api/image/${encodeURIComponent(src)}?id=${id}&width=${width}`
+            ? `${env.NEXT_URL}/api/image/${encodeURIComponent(
+                src
+              )}?id=${id}&width=${width}`
             : src
         }
         alt={alt}
@@ -30,5 +32,14 @@ export function Image({
     )
   }
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src={src} alt={alt} width={width} height={height} loading="lazy" className={props.className} />
+  return (
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      className={props.className}
+    />
+  )
 }

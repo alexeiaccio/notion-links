@@ -20,15 +20,22 @@ export async function getData() {
   const blocks = await getBlockChildren(env.NOTION_PAGE_ID)
   let [infoBlock, ...otherBlocks] = blocks || []
   infoBlock = infoBlock?.type === 'paragraph' ? infoBlock : undefined
-  const socialsBlock = otherBlocks.at(-1)?.type === 'child_database' ? otherBlocks.at(-1) : undefined
+  const socialsBlock =
+    otherBlocks.at(-1)?.type === 'child_database'
+      ? otherBlocks.at(-1)
+      : undefined
   otherBlocks = infoBlock ? otherBlocks : blocks || []
   otherBlocks = socialsBlock ? otherBlocks.slice(0, -1) : otherBlocks
   return {
     id: idFromUUID(env.NOTION_PAGE_ID),
-    name: getProperty(page?.properties, 'title', 'title')?.[0]?.plain_text ?? null,
+    name:
+      getProperty(page?.properties, 'title', 'title')?.[0]?.plain_text ?? null,
     avatar: getFile(page?.icon as File) ?? null,
     cover: getFile(page?.cover) ?? null,
-    info: infoBlock ? infoBlock.paragraph.rich_text.map((part) => part.plain_text).join('') ?? null : null,
+    info: infoBlock
+      ? infoBlock.paragraph.rich_text.map((part) => part.plain_text).join('') ??
+        null
+      : null,
     links: otherBlocks?.flatMap((block) => {
       if (block.type === 'bookmark') {
         const content = getBlockContent(block, block.type)
@@ -85,7 +92,9 @@ export async function getSocialsData(id: string | undefined) {
     if (item.object === 'page') {
       return {
         id: item.id,
-        title: richTextToPlainText(getProperty(item.properties, 'title', 'title')),
+        title: richTextToPlainText(
+          getProperty(item.properties, 'title', 'title')
+        ),
         media: getProperty(item.properties, 'media', 'select')?.name ?? null,
         url: getProperty(item.properties, 'link', 'url') ?? null,
       }
@@ -180,27 +189,43 @@ function getProperty<
   Prop extends Props[keyof Props],
   Type extends Prop['type'],
   Res extends Extract<Prop, { type: Type }>,
-  TypeKey extends Extract<keyof Res, Type>,
->(props: Props | null | undefined, key: keyof Props, type: Type): Res[TypeKey] | null {
-  return props && key in props ? (props[key] as Res)[type as unknown as TypeKey] || null : null
+  TypeKey extends Extract<keyof Res, Type>
+>(
+  props: Props | null | undefined,
+  key: keyof Props,
+  type: Type
+): Res[TypeKey] | null {
+  return props && key in props
+    ? (props[key] as Res)[type as unknown as TypeKey] || null
+    : null
 }
 
 function getBlockContent<
   Props extends BlockObjectResponse,
   Type extends Props['type'],
   Res extends Extract<Props, { type: Type }>,
-  TypeKey extends Extract<keyof Res, Type>,
+  TypeKey extends Extract<keyof Res, Type>
 >(props: Props | null | undefined, type: Type): Res[TypeKey] | null {
-  return props && type in props ? (props as unknown as Res)[type as unknown as TypeKey] || null : null
+  return props && type in props
+    ? (props as unknown as Res)[type as unknown as TypeKey] || null
+    : null
 }
 
 function getFile(file: Partial<File> | null | undefined) {
   if (!file) return null
-  if (file.type == 'external') return { url: file.external?.url ?? '', type: file.type, name: file.name ?? '' }
-  if (file.type === 'file') return { url: file.file?.url ?? '', type: file.type, name: file.name ?? '' }
+  if (file.type == 'external')
+    return {
+      url: file.external?.url ?? '',
+      type: file.type,
+      name: file.name ?? '',
+    }
+  if (file.type === 'file')
+    return { url: file.file?.url ?? '', type: file.type, name: file.name ?? '' }
 }
 
-function richTextToPlainText(richText: RichTextItemResponse[] | undefined | null) {
+function richTextToPlainText(
+  richText: RichTextItemResponse[] | undefined | null
+) {
   return richText?.map((part) => part.plain_text).join('') ?? ''
 }
 

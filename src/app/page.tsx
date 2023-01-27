@@ -1,6 +1,11 @@
 import { Suspense } from 'react'
 import { env } from '~/env/server.mjs'
-import { getBlockRecordMap, getBlocktData, getData, getSocialsData } from '~/utils/data'
+import {
+  getBlockRecordMap,
+  getBlocktData,
+  getData,
+  getSocialsData,
+} from '~/utils/data'
 import { ClientComponent } from './client'
 import { type IconName, Icons } from './icons'
 import { Image } from './image'
@@ -14,10 +19,18 @@ export default async function Page() {
         <Image src={data?.cover?.url} width={1920} id={data.id} alt="" />
       </div>
       <div className="relative -mt-16 h-24 w-24 overflow-hidden rounded-full object-cover">
-        <Image src={data?.avatar?.url} width={96} height={96} id={data.id} alt={data?.name ?? ''} />
+        <Image
+          src={data?.avatar?.url}
+          width={96}
+          height={96}
+          id={data.id}
+          alt={data?.name ?? ''}
+        />
       </div>
       <h1 className="text-2xl font-bold">{data?.name}</h1>
-      {data?.info && <p className="max-w-[72ch] px-4 text-center">{data.info}</p>}
+      {data?.info && (
+        <p className="max-w-[72ch] px-4 text-center">{data.info}</p>
+      )}
       <div className="mt-8 grid w-full max-w-[72ch] gap-4 px-4">
         {data?.links?.map((link) => {
           switch (link.type) {
@@ -29,7 +42,9 @@ export default async function Page() {
               return (
                 <details key={link.id} className="group min-w-0">
                   <summary className="flex cursor-pointer items-center gap-4 overflow-hidden bg-white p-1 shadow-lg hover:scale-105 hover:transition-transform">
-                    <h3 className="max-w-full flex-1 truncate pl-3">{link.title}</h3>
+                    <h3 className="max-w-full flex-1 truncate pl-3">
+                      {link.title}
+                    </h3>
                     <div className="grid h-12 w-12 flex-shrink-0 place-items-center overflow-hidden rounded-md transition-colors hover:bg-gray-100">
                       <div className="h-4 w-4 transition-transform group-open:rotate-180">
                         <Icons name="chevron" />
@@ -100,7 +115,9 @@ async function Bookmark({
           />
         )}
       </div>
-      <h3 className="max-w-full flex-1 truncate">{link.title || data?.title || link.href}</h3>
+      <h3 className="max-w-full flex-1 truncate">
+        {link.title || data?.title || link.href}
+      </h3>
     </a>
   )
 }
@@ -122,11 +139,18 @@ async function BlockContent({ id }: { id: string }) {
             if (src.includes('youtube')) {
               const url = new URL(src)
               const id = url.searchParams.get('v')
-              if (id) src = `http${env.NODE_ENV === 'production' ? 's' : ''}://www.youtube.com/embed/${id}`
+              if (id)
+                src = `http${
+                  env.NODE_ENV === 'production' ? 's' : ''
+                }://www.youtube.com/embed/${id}`
             }
             return (
               <div key={block.id} className="relative aspect-video w-full">
-                <iframe src={src} className="absolute inset-0 h-full w-full" loading="lazy" />
+                <iframe
+                  src={src}
+                  className="absolute inset-0 h-full w-full"
+                  loading="lazy"
+                />
               </div>
             )
           }
@@ -147,7 +171,9 @@ async function Socials({ id }: { id: string | undefined }) {
           <a
             key={item.id}
             className="relative grid h-12 w-12 flex-shrink-0 place-items-center overflow-hidden transition-colors before:absolute before:inset-0 before:rounded-full before:opacity-0 before:transition-opacity before:[background-image:linear-gradient(32deg,_#85eaf2_0%,_#e485cf_47%,_#fdf67a_100%)] hover:text-white hover:before:opacity-100"
-            href={item.url?.includes('@') ? `mailto:${item.url}` : item.url ?? ''}
+            href={
+              item.url?.includes('@') ? `mailto:${item.url}` : item.url ?? ''
+            }
             title={item.title}
             target="_blank"
             rel="noreferrer"

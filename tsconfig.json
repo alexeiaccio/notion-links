@@ -19,6 +19,7 @@
     "jsx": "preserve",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
+    "baseUrl": ".",
     "plugins": [
       {
         "name": "next"

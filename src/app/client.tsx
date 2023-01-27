@@ -14,7 +14,12 @@ interface Args extends IntersectionObserverInit {
 
 function useIntersectionObserver(
   elementRef: React.RefObject<Element>,
-  { threshold = 0, root = null, rootMargin = '0%', freezeOnceVisible = false }: Args,
+  {
+    threshold = 0,
+    root = null,
+    rootMargin = '0%',
+    freezeOnceVisible = false,
+  }: Args
 ): IntersectionObserverEntry | undefined {
   const [entry, setEntry] = React.useState<IntersectionObserverEntry>()
   const frozen = entry?.isIntersecting && freezeOnceVisible

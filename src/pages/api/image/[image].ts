@@ -6,10 +6,9 @@ const NOTION_TOKEN = env.NOTION_TOKEN
 export default async function imageRoutes(req: NextRequest) {
   const { pathname, searchParams } = new URL(req.url)
   const url = new URL(
-    `https://www.notion.so/image/${encodeURIComponent('https://s3-us-west-2.amazonaws.com')}${pathname.replace(
-      '/api/image/',
-      '',
-    )}`,
+    `https://www.notion.so/image/${encodeURIComponent(
+      'https://s3-us-west-2.amazonaws.com'
+    )}${pathname.replace('/api/image/', '')}`
   )
   url.searchParams.set('table', 'block')
   if (searchParams.get('id')) {
