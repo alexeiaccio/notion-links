@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@ianvs/prettier-plugin-sort-imports': ^3.7.1
+  '@next/font': ^13.1.5
   '@notionhq/client': ^2.2.3
   '@tanstack/react-query': ^4.22.3
   '@trpc/client': ^10.9.0
@@ -33,6 +34,7 @@ specifiers:
   zod: ^3.20.2
 
 dependencies:
+  '@next/font': 13.1.5
   '@notionhq/client': 2.2.3
   '@tanstack/react-query': 4.22.3_biqbaboplfbrettd7655fr4n2y
   '@trpc/client': 10.9.0_@trpc+server@10.9.0
@@ -393,6 +395,10 @@ packages:
     dependencies:
       glob: 7.1.7
     dev: true
+
+  /@next/font/13.1.5:
+    resolution: {integrity: sha512-6M5R6yC3JkdJiqo/YJxDp6+0vDn0smXOAzl8uHt4qmDS2u53ji/19K0HM51d+5kg8xntDi+N2hw7YjaU9inkNA==}
+    dev: false
 
   /@next/swc-android-arm-eabi/13.1.4:
     resolution: {integrity: sha512-5PAchzFst3In6Ml+9APvBj89H29lcPXcUqEYBVv09fWK/V4IuViKc2qOqM9pyPyw7KsqaZPmuqaG595E6jdZLA==}
