@@ -3,6 +3,10 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        unbounded: ['var(--font-unbounded)', 'sans-serif'],
+        inter: ['var(--font-inter)', 'sans-serif'],
+      },
       animation: {
         rotation: 'rotation 30s linear infinite',
       },
