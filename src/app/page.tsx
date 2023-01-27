@@ -18,11 +18,11 @@ export default async function Page() {
       <div className="grid aspect-[10/4] w-full place-items-center overflow-hidden">
         <Image src={data?.cover?.url} width={1920} id={data.id} alt="" />
       </div>
-      <div className="relative -mt-16 h-24 w-24 overflow-hidden rounded-full object-cover">
+      <div className="relative -mt-16 h-24 w-24 overflow-hidden rounded-full object-cover md:-mt-[5.5rem] md:h-36 md:w-36">
         <Image
           src={data?.avatar?.url}
-          width={96}
-          height={96}
+          width={144}
+          height={144}
           id={data.id}
           alt={data?.name ?? ''}
         />
