@@ -17,6 +17,7 @@
     "@trpc/next": "^10.9.0",
     "@trpc/react-query": "^10.9.0",
     "@trpc/server": "^10.9.0",
+    "@vercel/og": "^0.1.0",
     "ariakit": "2.0.0-next.43",
     "class-variance-authority": "^0.4.0",
     "next": "13.1.4",
