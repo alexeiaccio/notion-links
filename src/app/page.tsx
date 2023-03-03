@@ -27,9 +27,11 @@ export default async function Page() {
           alt={data?.name ?? ''}
         />
       </div>
-      <h1 className="font-unbounded text-2xl">{data?.name}</h1>
+      <h1 className="font-unbounded text-2xl font-bold">{data?.name}</h1>
       {data?.info && (
-        <p className="max-w-[72ch] px-4 text-center">{data.info}</p>
+        <p className="max-w-[72ch] px-4 text-center font-inter font-normal">
+          {data.info}
+        </p>
       )}
       <div className="mt-8 grid w-full max-w-[72ch] gap-4 px-4">
         {data?.links?.map((link) => {

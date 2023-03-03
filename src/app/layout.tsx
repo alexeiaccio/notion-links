@@ -32,3 +32,13 @@ export default function RootLayout({
     </html>
   )
 }
+
+// const unbounded = localFont({
+//   src: '../assets/fonts/Unbounded-VariableFont.ttf',
+//   variable: '--font-unbounded',
+// })
+
+// const inter = localFont({
+//   src: '../assets/fonts/Inter-VariableFont.ttf',
+//   variable: '--font-inter',
+// })
